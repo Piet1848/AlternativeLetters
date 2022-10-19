@@ -28,9 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbInput = new System.Windows.Forms.TextBox();
-            this.tbOutput = new System.Windows.Forms.TextBox();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -48,26 +51,32 @@
             this.tbInput.Name = "tbInput";
             this.tbInput.Size = new System.Drawing.Size(1401, 27);
             this.tbInput.TabIndex = 1;
+            this.tbInput.Text = "Hello World";
             this.tbInput.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // tbOutput
+            // pictureBox
             // 
-            this.tbOutput.Location = new System.Drawing.Point(268, 45);
-            this.tbOutput.Multiline = true;
-            this.tbOutput.Name = "tbOutput";
-            this.tbOutput.Size = new System.Drawing.Size(1401, 941);
-            this.tbOutput.TabIndex = 2;
+            this.pictureBox.Location = new System.Drawing.Point(268, 45);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(1004, 898);
+            this.pictureBox.TabIndex = 2;
+            this.pictureBox.TabStop = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1681, 998);
-            this.Controls.Add(this.tbOutput);
+            this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.tbInput);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -77,6 +86,7 @@
 
         private GroupBox groupBox1;
         private TextBox tbInput;
-        private TextBox tbOutput;
+        private PictureBox pictureBox;
+        private System.Windows.Forms.Timer timer1;
     }
 }

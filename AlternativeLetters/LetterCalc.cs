@@ -8,7 +8,7 @@ namespace AlternativeLetters
 {
     internal class LetterCalc
     {
-        private char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
+        private char[] vowels = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
         public List<Letter> updateInput(String input)
         {
             List<Letter> letters = new List<Letter>();
@@ -34,11 +34,15 @@ namespace AlternativeLetters
                 if (vowels.Contains(currentC))
                 {
                     lastVowel = true;
+                    if(charsInLetter.Count == 0)
+                    {
+                        charsInLetter.Add(currentC);
+                    }
                     colors.Add(getColor(currentC));
                 }
                 else if (lastVowel)
                 {
-                    if(colors.Count == 0)
+                    if (colors.Count == 0)
                     {
                         colors.Add(Color.Black);
                     }
@@ -52,6 +56,15 @@ namespace AlternativeLetters
                     charsInLetter.Add(currentC);
                 }
             }
+            if (charsInLetter.Count > 0)
+            {
+                if (colors.Count == 0)
+                {
+                    colors.Add(Color.Black);
+                }
+                letters.Add(new Letter(colors, charsInLetter));
+            }
+            letters.Add(new Letter());
             return letters;
         }
 
@@ -66,7 +79,7 @@ namespace AlternativeLetters
                 case 'i':
                     return Color.Orange;
                 case 'o':
-                    return Color.Yellow;
+                    return Color.Brown;
                 case 'u':
                     return Color.Blue;
                 default:

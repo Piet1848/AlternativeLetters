@@ -16,5 +16,11 @@ namespace AlternativeLetters
             this.colors = colors;
             this.chars = c;
         }
+
+        public Letter()
+        {
+            colors = new List<Color> { Color.Black };
+            chars = new List<char> { ' ' };
+        }
     }
 }
