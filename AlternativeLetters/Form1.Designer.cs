@@ -28,12 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbInput = new System.Windows.Forms.TextBox();
+            this.tbOutput = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(250, 125);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "groupBox1";
+            // 
+            // tbInput
+            // 
+            this.tbInput.Location = new System.Drawing.Point(268, 12);
+            this.tbInput.Name = "tbInput";
+            this.tbInput.Size = new System.Drawing.Size(1401, 27);
+            this.tbInput.TabIndex = 1;
+            this.tbInput.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // tbOutput
+            // 
+            this.tbOutput.Location = new System.Drawing.Point(268, 45);
+            this.tbOutput.Multiline = true;
+            this.tbOutput.Name = "tbOutput";
+            this.tbOutput.Size = new System.Drawing.Size(1401, 941);
+            this.tbOutput.TabIndex = 2;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1681, 998);
+            this.Controls.Add(this.tbOutput);
+            this.Controls.Add(this.tbInput);
+            this.Controls.Add(this.groupBox1);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private GroupBox groupBox1;
+        private TextBox tbInput;
+        private TextBox tbOutput;
     }
 }
