@@ -10,7 +10,7 @@ namespace AlternativeLetters
     internal class Picture
     {
         static readonly Random rng = new Random();
-        List<Letter> letters;
+        List<Word> words;
         int counter = 0;
         int height;
         int width;
@@ -21,10 +21,16 @@ namespace AlternativeLetters
             this.width = width;
         }
 
-        public void setFrames(List<Letter> letters)
+        public void setFrames(List<Word> words)
         {
             //TODO calc frames
-            this.letters = letters;
+            this.words = words;
+        }
+
+        public void setHeightWidth(int height, int width)
+        {
+            this.height = height;
+            this.width = width;
         }
 
         public void Render(Graphics g, Control target)
@@ -35,18 +41,29 @@ namespace AlternativeLetters
             int y = 0;
             int dx = 21;
             int dy = 45;
-            foreach (Letter letter in letters)
+            foreach (Word word in words)
             {
-                Color color = letter.colors[counter%letter.colors.Count];
-                PointF pos = new Point(x, y);
-                int modulo = counter%letter.chars.Count;
-                String s = "" + letter.chars[modulo];
-                g.DrawString(s, font, new SolidBrush(color), pos);
-                x += dx;
-                if(x >= width)
+                if (x + dx * word.letterList.Count >= width - 2 * dx)
                 {
                     x = 0;
                     y += dy;
+                }
+                foreach (Letter letter in word.letterList)
+                {
+                    if (letter.chars[0] != 10)
+                    {
+                        Color color = letter.colors[counter % letter.colors.Count];
+                        PointF pos = new Point(x, y);
+                        int modulo = counter % letter.chars.Count;
+                        String s = "" + letter.chars[modulo];
+                        g.DrawString(s, font, new SolidBrush(color), pos);
+                        x += dx;
+                    }
+                    else
+                    {
+                        y += dy;
+                        x = 0;
+                    }
                 }
             }
             counter++;

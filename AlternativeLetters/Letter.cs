@@ -19,7 +19,7 @@ namespace AlternativeLetters
 
         public Letter()
         {
-            colors = new List<Color> { Color.Black };
+            colors = new List<Color> { Color.FromArgb(255, 220, 220, 220) };
             chars = new List<char> { ' ' };
         }
     }

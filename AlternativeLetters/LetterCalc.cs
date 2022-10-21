@@ -9,20 +9,21 @@ namespace AlternativeLetters
     internal class LetterCalc
     {
         private char[] vowels = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
-        public List<Letter> updateInput(String input)
+
+        public List<Word> updateInput(String input)
         {
-            List<Letter> letters = new List<Letter>();
+            List<Word> newWords = new List<Word>();
             String[] words = input.Split(' ', StringSplitOptions.TrimEntries);
             foreach (String word in words)
             {
-                letters.AddRange(getLetters(word));
+                newWords.Add(new Word(getLetters(word)));
             }
-            return letters;
+            return newWords;
         }
 
         private List<Letter> getLetters(String word)
         {
-            List<Letter> letters = new List<Letter>();
+            List<Letter> outputWord = new List<Letter>();
             char[] chars = word.ToCharArray();
             List<char> charsInLetter = new List<char>();
             List<Color> colors = new List<Color>();
@@ -39,14 +40,28 @@ namespace AlternativeLetters
                         charsInLetter.Add(currentC);
                     }
                     colors.Add(getColor(currentC));
+                }else if((int) currentC < 65 || ((int) currentC > 90 && (int) currentC < 97) || (int) currentC > 122)
+                {
+                    if (charsInLetter.Count > 0)
+                    {
+                        if (colors.Count == 0)
+                        {
+                            colors.Add(Color.FromArgb(255, 220, 220, 220));
+                        }
+                        outputWord.Add(new Letter(colors, charsInLetter));
+                        colors = new List<Color>();
+                    }
+                    outputWord.Add(new Letter(new List<Color> { Color.White }, new List<char> { currentC }));
+                    charsInLetter = new List<char>();
+                    lastVowel=false;
                 }
                 else if (lastVowel)
                 {
                     if (colors.Count == 0)
                     {
-                        colors.Add(Color.Black);
+                        colors.Add(Color.FromArgb(255, 220, 220, 220));
                     }
-                    letters.Add(new Letter(colors, charsInLetter));
+                    outputWord.Add(new Letter(colors, charsInLetter));
                     charsInLetter = new List<char> { currentC };
                     colors = new List<Color>();
                     lastVowel = false;
@@ -60,12 +75,12 @@ namespace AlternativeLetters
             {
                 if (colors.Count == 0)
                 {
-                    colors.Add(Color.Black);
+                    colors.Add(Color.FromArgb(255, 220, 220, 220));
                 }
-                letters.Add(new Letter(colors, charsInLetter));
+                outputWord.Add(new Letter(colors, charsInLetter));
             }
-            letters.Add(new Letter());
-            return letters;
+            outputWord.Add(new Letter());  //Leerzeichen ' '
+            return outputWord;
         }
 
         private Color getColor(char c)
@@ -73,17 +88,17 @@ namespace AlternativeLetters
             switch (c)
             {
                 case 'a':
-                    return Color.Red;
+                    return Color.OrangeRed;
                 case 'e':
-                    return Color.Green;
+                    return Color.LightSkyBlue;
                 case 'i':
-                    return Color.Orange;
+                    return Color.Yellow;
                 case 'o':
-                    return Color.Brown;
+                    return Color.FromArgb(255, 0, 123, 49);
                 case 'u':
-                    return Color.Blue;
+                    return Color.LightGreen;
                 default:
-                    return Color.Black;
+                    return Color.FromArgb(255, 220, 220, 220);
             }
         }
     }

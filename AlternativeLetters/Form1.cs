@@ -7,21 +7,21 @@ namespace AlternativeLetters
     {
         LetterCalc letterCalc;
         Picture picture;
-        List<Letter> letters;
+        List<Word> words;
 
         public Form1()
         {
             InitializeComponent();
             letterCalc = new LetterCalc();
-            letters = letterCalc.updateInput(tbInput.Text);
+            words = letterCalc.updateInput(tbInput.Text);
             picture = new Picture(pictureBox.Height, pictureBox.Width);
-            picture.setFrames(letters);
+            picture.setFrames(words);
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
+            base.SizeChanged += (s, ev) => setHeightWidth();
             pictureBox.Paint += (s, ev) =>
             {
                 ev.Graphics.CompositingQuality = CompositingQuality.HighQuality;
@@ -32,8 +32,8 @@ namespace AlternativeLetters
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            letters = letterCalc.updateInput(tbInput.Text);
-            picture.setFrames(letters);
+            words = letterCalc.updateInput(tbInput.Text);
+            picture.setFrames(words);
             timer1.Interval = 150;
             timer1.Start();
         }
@@ -46,6 +46,11 @@ namespace AlternativeLetters
         private void timer1_Tick(object sender, EventArgs e)
         {
             pictureBox.Refresh();
+        }
+
+        private void setHeightWidth()
+        {
+            picture.setHeightWidth(pictureBox.Height, pictureBox.Width);
         }
     }
 }
