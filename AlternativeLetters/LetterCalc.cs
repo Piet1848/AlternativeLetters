@@ -13,7 +13,7 @@ namespace AlternativeLetters
         public List<Word> updateInput(String input)
         {
             List<Word> newWords = new List<Word>();
-            String[] words = input.Split(' ', StringSplitOptions.TrimEntries);
+            String[] words = input.Split(' ');
             foreach (String word in words)
             {
                 newWords.Add(new Word(getLetters(word)));
@@ -85,17 +85,18 @@ namespace AlternativeLetters
 
         private Color getColor(char c)
         {
-            switch (c)
+            String s = "" + c;
+            switch (s.ToLower())
             {
-                case 'a':
+                case "a":
                     return Color.OrangeRed;
-                case 'e':
+                case "e":
                     return Color.LightSkyBlue;
-                case 'i':
+                case "i":
                     return Color.Yellow;
-                case 'o':
+                case "o":
                     return Color.FromArgb(255, 0, 123, 49);
-                case 'u':
+                case "u":
                     return Color.LightGreen;
                 default:
                     return Color.FromArgb(255, 220, 220, 220);

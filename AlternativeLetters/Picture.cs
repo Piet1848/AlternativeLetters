@@ -39,7 +39,7 @@ namespace AlternativeLetters
             Font font = new Font("Cascadia Mono", 20);
             int x = 0;
             int y = 0;
-            int dx = 21;
+            int dx = 20;
             int dy = 45;
             foreach (Word word in words)
             {

@@ -1,6 +1,6 @@
 ﻿namespace AlternativeLetters
 {
-    partial class Form1
+    partial class Form
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,21 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbInput = new System.Windows.Forms.TextBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(250, 125);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
             // 
             // tbInput
             // 
@@ -53,12 +43,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.tbInput.ForeColor = System.Drawing.Color.White;
-            this.tbInput.Location = new System.Drawing.Point(268, 12);
+            this.tbInput.Location = new System.Drawing.Point(12, 12);
             this.tbInput.Multiline = true;
             this.tbInput.Name = "tbInput";
-            this.tbInput.Size = new System.Drawing.Size(1403, 89);
+            this.tbInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbInput.Size = new System.Drawing.Size(1505, 89);
             this.tbInput.TabIndex = 1;
-            this.tbInput.Text = "Hello World";
             this.tbInput.UseSystemPasswordChar = true;
             this.tbInput.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -68,9 +58,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.pictureBox.Location = new System.Drawing.Point(268, 107);
+            this.pictureBox.Location = new System.Drawing.Point(12, 107);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(1403, 864);
+            this.pictureBox.Size = new System.Drawing.Size(1505, 864);
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             // 
@@ -78,17 +68,16 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // Form1
+            // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.ClientSize = new System.Drawing.Size(1683, 983);
+            this.ClientSize = new System.Drawing.Size(1529, 983);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.tbInput);
-            this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Form";
+            this.Text = "Alternative Letters";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -96,8 +85,6 @@
         }
 
         #endregion
-
-        private GroupBox groupBox1;
         private TextBox tbInput;
         private PictureBox pictureBox;
         private System.Windows.Forms.Timer timer1;

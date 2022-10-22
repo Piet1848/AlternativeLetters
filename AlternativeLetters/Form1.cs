@@ -3,13 +3,13 @@ using System.Drawing.Drawing2D;
 
 namespace AlternativeLetters
 {
-    public partial class Form1 : Form
+    public partial class Form : System.Windows.Forms.Form
     {
         LetterCalc letterCalc;
         Picture picture;
         List<Word> words;
 
-        public Form1()
+        public Form()
         {
             InitializeComponent();
             letterCalc = new LetterCalc();
@@ -34,7 +34,7 @@ namespace AlternativeLetters
         {
             words = letterCalc.updateInput(tbInput.Text);
             picture.setFrames(words);
-            timer1.Interval = 150;
+            timer1.Interval = 175;
             timer1.Start();
         }
 
