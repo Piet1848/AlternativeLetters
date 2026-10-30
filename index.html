@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alternative Letters</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #17191e; color: #f4f4f5; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1100px; margin: auto; padding: 24px; }
+    h1 { margin: 0 0 4px; font-size: 1.7rem; }
+    p { color: #bec4ce; line-height: 1.5; }
+    label { font-weight: 600; }
+    textarea, select, input, button { font: inherit; }
+    textarea, select, input { color: #f4f4f5; background: #292d35; border: 1px solid #69717e; border-radius: 6px; }
+    textarea { display: block; width: 100%; min-height: 120px; resize: vertical; padding: 12px; margin-top: 8px; }
+    button { cursor: pointer; border: 1px solid #8491a4; border-radius: 6px; padding: 7px 12px; background: #364358; color: white; }
+    button:disabled, input:disabled { opacity: .55; cursor: default; }
+    button:focus-visible, textarea:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #8ecbff; outline-offset: 2px; }
+    select, input { padding: 6px; }
+    input[type=number] { width: 75px; }
+    .toolbar, .session { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 16px 0 8px; }
+    .toolbar label { margin-left: 8px; }
+    .toolbar label:first-child { margin-left: 0; }
+    .hint, .status { font-size: .9rem; color: #bec4ce; }
+    .hint { margin: 8px 0; }
+    .reader { background: #242830; border: 1px solid #424955; border-radius: 8px; padding: 18px; min-height: 240px; max-height: 55vh; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, Consolas, monospace; font-size: 20px; line-height: 1.65; }
+    .empty { color: #aeb6c2; font-family: system-ui, sans-serif; font-size: 1rem; }
+    .word { overflow-wrap: anywhere; }
+    .glyph { display: inline-block; min-width: 1ch; text-align: center; }
+    @media (max-width: 600px) { main { padding: 16px; } .toolbar label { margin-left: 0; } .reader { min-height: 180px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Alternative Letters</h1>
+  <p>Explore a different way to display text, and compare it with ordinary reading.</p>
+  <button id="toggleInput" type="button" aria-expanded="true" aria-controls="inputArea">Hide original text</button>
+  <div id="inputArea">
+    <label for="input">Your text</label> <span id="count" class="status">0 words</span>
+    <textarea id="input" placeholder="Type or paste text here…" spellcheck="false"></textarea>
+  </div>
+  <div class="toolbar">
+    <label for="example">Example text</label>
+    <select id="example">
+      <option value="garden">The community garden</option>
+      <option value="journey">A train journey</option>
+      <option value="library">The neighbourhood library</option>
+    </select>
+    <button id="loadExample" type="button">Load example</button>
+  </div>
+  <div class="toolbar">
+    <label for="mode">View</label>
+    <select id="mode"><option value="original">Original text</option><option value="alternative">Alternative letters</option></select>
+    <label for="size">Text size</label><input id="size" type="number" min="12" max="36" value="20" aria-label="Text size in pixels">
+    <button id="animation" type="button" disabled>Play animation</button>
+    <label for="speed">Frame ms</label><input id="speed" type="number" min="100" max="2000" step="50" value="175" disabled aria-label="Animation frame duration in milliseconds">
+    <label><input id="hints" type="checkbox" disabled> Hover hints</label>
+  </div>
+  <p id="hint" class="hint">Full text stays available for rereading and selection.</p>
+  <div id="reader" class="reader" role="region" aria-label="Reading view" tabindex="0"><span class="empty">Your text will appear here.</span></div>
+  <div class="session"><button id="session" type="button">Start reading timer</button><span id="sessionStatus" class="status" aria-live="polite">Time your reading and check comprehension yourself.</span></div>
+</main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const input = $('input'), reader = $('reader'), mode = $('mode'), size = $('size');
+  const speed = $('speed'), animation = $('animation'), hint = $('hint'), count = $('count');
+  const session = $('session'), sessionStatus = $('sessionStatus');
+  const example = $('example'), loadExample = $('loadExample');
+  const toggleInput = $('toggleInput'), inputArea = $('inputArea'), hints = $('hints');
+  const examples = {
+    garden: `At the end of a quiet street, an empty piece of land became a community garden. At first, it was covered with stones and weeds. A few neighbours met on a Saturday morning, brought gloves and tools, and began to clear the ground. By the afternoon, they had made enough space for three small beds.
+
+Over the following weeks, more people joined them. One person knew how to build a simple fence, while another offered seeds saved from the previous year. Children painted signs for the paths and helped carry water. Nobody expected the garden to look perfect. The aim was to create a place where people could work together and learn from one another.
+
+The first harvest was modest: a basket of beans, some lettuce, and a handful of tomatoes. Even so, the neighbours shared it at a long table beside the fence. They talked about what had grown well and what they would change next season. Some plants needed more sunlight, and the water containers were too far from the beds.
+
+By autumn, the garden had become more than a source of vegetables. It gave people a reason to meet, exchange ideas, and notice the changing seasons.`,
+    journey: `Mara arrived at the station early, carrying a small bag and a notebook. Her train would cross the countryside before reaching a town she had never visited. The platform was quiet except for a family studying a map and a worker sweeping leaves from the edge.
+
+When the train arrived, Mara found a seat by the window. The city slowly gave way to fields, villages, and patches of woodland. At each stop, a few passengers stepped out and others climbed aboard. A man across the aisle read a newspaper, while a child counted bridges aloud until the train entered a tunnel.
+
+Halfway through the journey, an announcement explained that the train would wait for ten minutes because another service was delayed. Some passengers checked their phones. Mara used the pause to write down the names of places she had seen on the station signs. She realised that the delay gave her time to notice details she might otherwise have missed.
+
+When the train finally reached its destination, the rain had stopped. Mara walked into the town square and found a small cafe near the river. She ordered tea, opened her notebook, and began planning the rest of the day.`,
+    library: `The neighbourhood library opened at nine each morning, but its busiest hour came after school. Students filled the tables near the windows, parents returned picture books, and visitors stopped at the desk to ask for help. The building was small, yet its rooms served many purposes.
+
+One corner held a collection of local newspapers and photographs. Another had computers for people who needed to complete forms or search for work. On Wednesdays, a volunteer led a conversation group for adults learning a new language. The library also lent board games, making it possible for families to try them before buying anything.
+
+When a leaking roof forced the library to close for repairs, staff moved a selection of books into the nearby community hall. The temporary space had fewer shelves and shorter opening hours, but regular visitors continued to come. Some offered to carry boxes, and others helped arrange chairs for the weekly groups.
+
+Several weeks later, the library reopened with a dry roof and brighter lights. At the entrance, staff displayed a notebook filled with suggestions from visitors. The ideas ranged from a seed exchange to an evening book club. The library could not adopt every suggestion at once, but the list showed how many people considered the space their own.`
+  };
+  const colors = { a: '#ff7657', e: '#87cefa', i: '#ffff00', o: '#4cdc76', u: '#90ee90' };
+  let glyphs = [], frame = 0, interval = null, playing = false, started = null;
+  const words = () => (input.value.trim().match(/\S+/gu) || []).length;
+  function resetSession() { started = null; session.textContent = 'Start reading timer'; sessionStatus.textContent = 'Time your reading and check comprehension yourself.'; }
+  function stopAnimation() { clearInterval(interval); interval = null; }
+  function paintFrame() {
+    for (const glyph of glyphs) {
+      glyph.node.textContent = glyph.chars[frame % glyph.chars.length];
+      glyph.node.style.color = glyph.colors[frame % glyph.colors.length];
+    }
+  }
+  function startAnimation() {
+    stopAnimation();
+    if (mode.value === 'alternative' && playing && glyphs.some(g => g.chars.length > 1 || g.colors.length > 1)) {
+      const duration = Math.max(100, Math.min(2000, Number(speed.value) || 175));
+      interval = setInterval(() => { frame++; paintFrame(); }, duration);
+    }
+  }
+  function encodeWord(text, container) {
+    let chars = [], vowelColors = [], lastVowel = false;
+    function flush() {
+      if (!chars.length) return;
+      const node = document.createElement('span'); node.className = 'glyph';
+      container.appendChild(node);
+      glyphs.push({ node, chars, colors: vowelColors.length ? vowelColors : ['#dedede'] });
+      chars = []; vowelColors = [];
+    }
+    for (const character of text) {
+      const color = colors[character.toLowerCase()];
+      if (color) {
+        lastVowel = true;
+        if (!chars.length) chars.push(character);
+        vowelColors.push(color);
+      } else if (!/^[a-z]$/i.test(character)) {
+        flush();
+        const node = document.createElement('span'); node.textContent = character; container.appendChild(node);
+        lastVowel = false;
+      } else if (lastVowel) {
+        flush(); chars.push(character); lastVowel = false;
+      } else chars.push(character);
+    }
+    flush();
+  }
+  function render() {
+    stopAnimation(); glyphs = []; frame = 0;
+    reader.replaceChildren();
+    const text = input.value;
+    const total = words(); count.textContent = `${total} ${total === 1 ? 'word' : 'words'}`;
+    const alternative = mode.value === 'alternative';
+    animation.disabled = speed.disabled = hints.disabled = !alternative;
+    hint.textContent = alternative
+      ? 'Experimental: consonants and vowel colors alternate (A orange, E blue, I yellow, O green, U light green). Refer to your text above for the full wording.'
+      : 'Full text stays available for rereading and selection.';
+    if (!text) {
+      const placeholder = document.createElement('span'); placeholder.className = 'empty'; placeholder.textContent = 'Your text will appear here.'; reader.appendChild(placeholder);
+    } else if (!alternative) {
+      reader.textContent = text;
+    } else {
+      for (const token of text.match(/\s+|\S+/gu) || []) {
+        if (/^\s+$/u.test(token)) reader.appendChild(document.createTextNode(token));
+        else {
+          const word = document.createElement('span'); word.className = 'word';
+          if (hints.checked) word.title = token;
+          encodeWord(token, word); reader.appendChild(word);
+        }
+      }
+      paintFrame(); startAnimation();
+    }
+  }
+  input.addEventListener('input', () => { resetSession(); render(); });
+  toggleInput.addEventListener('click', () => {
+    inputArea.hidden = !inputArea.hidden;
+    toggleInput.textContent = inputArea.hidden ? 'Show original text' : 'Hide original text';
+    toggleInput.setAttribute('aria-expanded', String(!inputArea.hidden));
+  });
+  hints.addEventListener('change', render);
+  loadExample.addEventListener('click', () => {
+    if (input.value.trim() && !window.confirm('Replace the current text with this example?')) return;
+    input.value = examples[example.value];
+    resetSession();
+    render();
+  });
+  mode.addEventListener('change', () => { resetSession(); render(); });
+  size.addEventListener('input', () => { const n = Number(size.value); if (n >= 12 && n <= 36) reader.style.fontSize = `${n}px`; });
+  speed.addEventListener('change', () => { speed.value = Math.max(100, Math.min(2000, Number(speed.value) || 175)); startAnimation(); });
+  animation.addEventListener('click', () => { playing = !playing; animation.textContent = playing ? 'Pause animation' : 'Play animation'; startAnimation(); });
+  session.addEventListener('click', () => {
+    if (started !== null) {
+      const seconds = (performance.now() - started) / 1000; started = null;
+      session.textContent = 'Start reading timer';
+      sessionStatus.textContent = seconds < 1 ? 'Read for at least one second to measure.' : `${seconds.toFixed(1)} s · ${Math.round(words() * 60 / seconds)} words/min (approx.) · Check what you understood.`;
+    } else if (words()) {
+      started = performance.now(); session.textContent = 'Finish reading'; sessionStatus.textContent = 'Timing… Select the button again when finished.'; reader.focus();
+    } else sessionStatus.textContent = 'Enter text before starting the timer.';
+  });
+})();
+</script>
+</body>
+</html>

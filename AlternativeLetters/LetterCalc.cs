@@ -95,7 +95,7 @@ namespace AlternativeLetters
                 case "i":
                     return Color.Yellow;
                 case "o":
-                    return Color.FromArgb(255, 0, 123, 49);
+                    return Color.FromArgb(255, 76, 220, 118);
                 case "u":
                     return Color.LightGreen;
                 default:
